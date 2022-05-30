@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template">
+<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+<head>
+	<meta charset="utf-8">
+	<title>AdD Comments</title>
+</head>
+
+<body>
+	<div layout:fragment="Mycontent">
+		<div class="container mt-5">
+			<div class="card">
+				<div class="card-header" th:if="${mode=='new'}">
+					<h1 align="center">Add Comments</h1>
+				</div>
+
+				<div class="card-header" th:if="${mode=='edit'}">
+					<h1 align="center">Editing Comments</h1>
+				</div>
+
+				<div class="card-body">
+					<form th:action="@{saveComment}" method="post">
+						<div class="form-group">
+							<label class="control-label" hidden>ID Comments :</label>
+							<input type="hidden" name="idComment" class="form-control"
+								th:value="${comments.idComment}" />
+						</div>
+
+						<div class="form-group">
+							<label class="control-label">Text Comment :</label>
+							<input type="text" name="textComment" class="form-control"
+								th:value="${comments.textComment}" required />
+							<span th:errors=${comments.textComment} class="text-danger"> </span>
+						</div>
+						<div class="form-group mb-3">
+							<label class="control-label">Creation Date Comments :</label>
+							<input type="date" name="CreationDateComment" class="form-control"
+								th:value="${comments.CreationDateComment}" />
+							<span th:errors=${comments.CreationDateComment} class="text-danger"> </span>
+						</div>
+						<div class="container bg-light  ">
+							<div class="col-md-12 text-center mt-4">
+								<button type="button" class="btn btn-danger w-25">Cancel</button>
+								<button type="submit" class="btn btn-success w-25">Valider</button>
+
+							</div>
+						</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+
+</html>

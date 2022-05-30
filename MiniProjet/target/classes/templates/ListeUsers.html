@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template" xmlns:sec=https://www.thymeleaf.org/thymeleaf-extras-springsecurity5>
+<link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.0.0/css/bootstrap.min.css" />
+
+<head>
+	<meta charset="utf-8">
+	<title>Liste of Users</title>
+
+	<link rel="icon" type="image/x-icon" href="../images/icon.png">
+</head>
+
+<body>
+	<div layout:fragment="Mycontent">
+		<div class="container mt-5">
+			<div class="card">
+				<div class="card-header">
+					<center>
+						<h4> Liste of Users</h1>
+					</center>
+				</div>
+				<div class="card-body">
+					<br>
+					<table id="myTable" class="table table-striped" style="text-align: center;">
+						<tr>
+							<th>ID</th>
+							<th>Users</th>
+							<th>State</th>
+							<th>Role</th>
+							<th sec:authorize="hasRole('ADMIN')" colspan="2">Actions</th>
+						</tr>
+						<tr th:each="u:${users}">
+							<td th:text="${u.user_id}"></td>
+							<td th:text="${u.username}"></td>
+							<td th:if="${u.enabled == true}" th:text="Enabled"></td>
+							<td th:if="${u.enabled == false}" th:text="Disabled"></td>
+							<td th:text="${u.roles}"></td>
+
+							<td sec:authorize="hasRole('ADMIN')"><a class="btn btn-danger"
+									onclick="return confirm('Etes-vous sur de supprimer cet utilisateur ?')"
+									th:href="@{supprimerUser(id=${u.user_id})}">Delete</a></td>
+							<td sec:authorize="hasRole('ADMIN')"><a class="btn btn-secondary"
+									th:href="@{modifierUser(id=${u.user_id})}">Edit</a></td>
+						</tr>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

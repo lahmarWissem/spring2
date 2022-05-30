@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template">
+<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+<head>
+	<meta charset="utf-8">
+	<title>Ajout et modification des Utilisateurs</title>
+	<link rel="icon" type="image/x-icon" href="../images/icon.png">
+	<style>
+		html,
+		body {}
+	</style>
+<script>
+    $(document).ready(function(){
+        $("#ConfirmPassword").keyup(function(){
+             if ($("#Password").val() != $("#ConfirmPassword").val()) {
+                 $("#msg").html("Password do not match").css("color","red");
+             }else{
+                 $("#msg").html("Password matched").css("color","green");
+            }
+      });
+});
+
+function checkPassword(form) {
+			password1 = form.Password.value;
+			password2 = form.ConfirmPassword.value;
+
+
+			if (password1 == '') {
+				alert("Enter Your Password Please !!!!");
+				return false;
+			}
+
+
+			else if (password2 == '') {
+				alert("Enter confirmation Password Please !!!!");
+				return false;
+			}
+
+			else if (password1 != password2) {
+				alert("\n Password do not match !!!")
+				return false;
+			}
+			else {
+				return true;
+			}
+
+		}
+</script> 
+</head>
+
+<body>
+	<div layout:fragment="Mycontent">
+		<div class="container mt-5">
+			<div class="card">
+				<div class="card-header" th:if="${mode=='new'}">
+					<center>
+						<h4>Add Users</h4>
+					</center>
+				</div>
+				<div class="card-header" th:if="${mode=='edit'}">
+					<center>
+						<h4>Editing Of Users</h4>
+					</center>
+				</div>
+				<div class="card-body">
+					<form th:action="@{saveUser}" method="post" onSubmit="return checkPassword(this)">
+						<div class="form-group">
+							<label class="control-label" hidden>ID User :</label>
+							<input type="hidden" name="user_id" class="form-control" th:value="${users.user_id}" />
+						</div>
+
+						<div class="form-group">
+							<label class="control-label">Name of User* :</label>
+							<input type="text" name="username" class="form-control" th:value="${users.username}"
+								required />
+							<span th:errors=${users.username} class="text-danger"> </span>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Password :</label>
+							<input type="password" name="Password" id="Password" class="form-control" th:value="${users.password}" />
+							<span th:errors=${users.password} class="text-danger"> </span>
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label">Confirmer Password :</label>
+							<input type="password" name="ConfirmPassword" id="ConfirmPassword" class="form-control" th:value="${users.password}" />
+							<span th:errors=${users.password} class="text-danger"> </span>
+						</div>
+						<span id="msg"></span>
+						
+						<div th:if="${mode!='edit'}">
+							<div class="form-group">
+								<label class="control-label">Etat :</label>
+								<select name="enabled" class="form-control" required>
+									<option th:each="u : ${users}" th:value="1">Enabled</option>
+									<option th:each="u : ${users}" th:value="0">Disabled</option>
+								</select>
+							</div>
+						</div>
+						<div th:if="${mode=='edit'}">
+							<div class="form-group">
+								<label class="control-label">Etat :</label>
+								<select name="enabled" class="form-control" required>
+									<option th:value="${users.enabled}" th:if="${users.enabled == true}"
+										th:text="Enabled" selected></option>
+									<option th:value="${users.enabled}" th:if="${users.enabled == false}"
+										th:text="Disabled" selected></option>
+									<option th:each="u : ${users}" th:value="1">Enabled</option>
+									<option th:each="u : ${users}" th:value="0">Disabled</option>
+								</select>
+							</div>
+						</div>
+						<div th:if="${mode!='edit'}">
+							<div class="form-group">
+								<label class="control-label">Role :</label>
+								<select name="roles" class="form-control" required>
+									<option th:each="r : ${roles}" th:value="${r.role_id}" th:text="${r.role}"></option>
+								</select>
+							</div>
+						</div>
+						<div th:if="${mode=='edit'}">
+							<div class="form-group">
+								<label class="control-label">Role :</label>
+								<select name="roles" class="form-control" required>
+									<option th:value="${users.roles}" th:text="${users.roles}" selected></option>
+									<option th:each="r : ${roles}" th:value="${r.role_id}" th:text="${r.role}"></option>
+								</select>
+							</div>
+						</div>
+					<div class="container bg-light">
+						<div class="col-md-12 text-center">
+						    <button type="button" class="btn btn-danger w-25">Cancel</button>
+							<button type="submit" class="btn btn-success w-25">Valider</button>
+							
+						</div>
+						</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</html>

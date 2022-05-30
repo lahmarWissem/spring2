@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template" xmlns:sec=https://www.thymeleaf.org/thymeleaf-extras-springsecurity5>
+
+<head>
+	<meta charset="utf-8">
+	<title>Connexion</title>
+</head>
+
+<body>
+	<div layout:fragment="Mycontent">
+<section class="vh-100" style="background-color: rgb(128, 128, 128);">
+		<div class="container ">
+			<div class="row d-flex justify-content-center align-items-center h-100 ">
+				<div class="col-12 col-md-8 col-lg-6 col-xl-5 ">
+					<div class="card shadow-2-strong  py-3 mt-5" style="border-radius: 1rem;">
+						<div class="card-body p-5  text-center">
+							<h3 class="mb-5">Sign in</h3>
+							<form th:action="@{login}" method="post">
+								<div class="form-group">
+									<label class="control-label">Utilisateur :</label>
+									<input type="text" class="form-control form-control-lg" name="username">
+								</div>
+								<div class="form-group">
+									<label class="control-label">Mot de passe :</label>
+									<input type="password" class="form-control form-control-lg" name="password">
+								</div>
+								<hr class="my-4">
+								<button class="btn btn-primary btn-lg btn-block">Connexion</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</section>
+	</div>
+
+</body>
+
+</html>
